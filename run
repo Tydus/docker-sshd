@@ -1,4 +1,4 @@
 #!/bin/bash
 
 [ ! -f "/etc/ssh/ssh_host_rsa_key" ] && dpkg-reconfigure openssh-server
-sshd -D -e
+/usr/sbin/sshd -D -e
