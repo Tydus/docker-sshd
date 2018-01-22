@@ -6,9 +6,13 @@ RUN apt-get -y update && \
     locale-gen en_US.UTF-8 && \
     mkdir /var/run/sshd && \
     sed -i 's/StrictModes yes/StrictModes no/' /etc/ssh/sshd_config && \
-    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
+    rm -v /etc/ssh/ssh_host_*
+
 
 ENV LANG en_US.UTF-8
+
+COPY run /
 
 #RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
@@ -18,5 +22,5 @@ ENV LANG en_US.UTF-8
 #RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+CMD ["run"]
 
