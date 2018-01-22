@@ -22,5 +22,5 @@ COPY run /
 #RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
-CMD ["run"]
+CMD ["/run"]
 
