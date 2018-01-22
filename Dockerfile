@@ -12,7 +12,7 @@ RUN apt-get -y update && \
 
 ENV LANG en_US.UTF-8
 
-COPY run /
+COPY start /
 
 #RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
@@ -22,5 +22,5 @@ COPY run /
 #RUN echo "export VISIBLE=now" >> /etc/profile
 
 EXPOSE 22
-CMD ["/run"]
+CMD ["/start"]
 
