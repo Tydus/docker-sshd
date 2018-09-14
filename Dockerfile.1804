@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get -y update && \
-    apt-get -y install ca-certificates locales openssh-server screen --no-install-recommends && \
+    apt-get -y install ca-certificates locales openssh-server vim screen --no-install-recommends && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/* && \
     locale-gen en_US.UTF-8 && \
     mkdir /var/run/sshd && \
