@@ -2,9 +2,25 @@
 
 [ ! -f "/etc/ssh/ssh_host_rsa_key" ] && dpkg-reconfigure openssh-server
 
-mkdir -p /root/.ssh/
-cp /authorized_keys /root/.ssh/
-chmod 700 /root/.ssh
-chmod 600 /root/.ssh/*
+cpkey() {
+    home=$(eval echo ~$1)
+    [ -f "$home/.ssh/authorized_keys" ] && return 0
+    echo "Copy $1's key to $home"
+    mkdir -p "$home/.ssh/"
+    cp /authorized_keys "$home/.ssh/"
+    chown "$1:$1" "$home/.ssh" -R
+    chmod 700 "$home/.ssh"
+    chmod 600 "$home/.ssh/authorized_keys"
+}
+
+cpkey root
+
+if [ "$ADD_USER" ]; then
+    if ! id 1000 &>/dev/null; then
+        echo "Create user $ADD_USER"
+        useradd -mGsudo -s/bin/bash -d "/home/$ADD_USER" "$ADD_USER"
+        cpkey $ADD_USER
+    fi
+fi
 
 exec /usr/sbin/sshd -D -e
